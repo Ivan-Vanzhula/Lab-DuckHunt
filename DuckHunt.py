@@ -27,6 +27,40 @@ class GameScores:
         GameScores.totalShots = 0
         GameScores.totalDucks = 0
 
+# CLASS ====================================
+# Name.........: Cursor
+# Description..: Sets mouse to the crosshair
+# Syntax.......: Cursor()
+# ==========================================
+class Cursor(games.Sprite):
+    """ Cursor Object """
+    clicked = False
+    isShotAllowed = False
+
+    xPos = games.mouse.x
+    yPos = games.mouse.y
+
+    images = [games.load_image(f"Sprites/Cursors/Cursor_{i}.png") for i in range(1, 5)]
+
+    def __init__(self):
+        """ Cursor Initializer """
+
+        super(Cursor, self).__init__(image=self.images[0], x=games.mouse.x, y=games.mouse.y)
+
+        self.mouseClicked = False
+        self.mouseCounter = 0
+
+        # Load gunshot sound
+        self.gunShotSound = games.load_sound("Sounds/shot.wav")
+
+    def update(self):
+        # Keep the sprite at the same x and y location as the mouse
+        self.x = Cursor.xPos
+        self.y = Cursor.yPos
+
+        # Remove and read to put on top of any birds
+        games.screen.remove(self)
+        games.screen.add(self)
 
 
 # FUNCTION ==================================
