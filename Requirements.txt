@@ -1,4 +1,0 @@
-# Use pip install -r Requriments.txt
-
-superwires==0.9.6
-pygame==2.5.2
