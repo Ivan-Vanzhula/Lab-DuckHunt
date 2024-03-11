@@ -122,6 +122,41 @@ class Game(games.Sprite):
             games.screen.add(self.results)
             games.screen.add(self.results2)
 
+
+
+    def tick(self):
+        if self.started:
+            if self.started and self.playing and not Game.paused and not Game.over:
+                # Keep counting until the duck spawner should spawn a new duck
+                self.spawnCounter += 1
+
+                if self.spawnCounter >= 75:
+                    self.spawn()
+                    self.spawnCounter = 0
+
+            elif not Game.paused and not Game.over and self.started:
+                # Keep counting until the menu should disappear
+                if self.menuCounter >= 250:
+                    # Remove instructions
+                    games.screen.remove(self.instructions)
+                    games.screen.remove(self.instructions2)
+                    games.screen.remove(self.instructions3)
+                    self.menuCounter = 0
+                    self.playing = True
+                    self.gameTimer.start_clock()
+
+                else:
+                    self.menuCounter += 1
+
+                # Keep the final results until they should disappear
+                if self.menuCounter >= 500:
+                    # Destroy the game instance and exit
+                    self.destroy()
+                    exit()
+
+                else:
+                    self.menuCounter += 1
+
     @staticmethod
     def update_score_labels():
         """ Update the score labels """
