@@ -255,6 +255,41 @@ class Cursor(games.Sprite):
         games.screen.remove(self)
         games.screen.add(self)
 
+    def tick(self):
+        """ Check For Mouse Click """
+        if not Game.paused and not Game.over:
+            # Check if the mouse was clicked
+            if games.mouse.is_pressed(0) and not Cursor.clicked:
+                Cursor.clicked = True
+                Cursor.isShotAllowed = True
+                self.gunShotSound.play()
+
+                if Game.started:
+                    GameScores.totalShots += 1
+
+            # Avoid repeated mouse clicks
+            if Cursor.clicked:
+                if not games.mouse.is_pressed(0):
+                    Cursor.clicked = False
+                    Cursor.isShotAllowed = False
+                    self.mouseCounter = 0
+                else:
+                    if self.mouseCounter == 1:
+                        self.mouseCounter = 0
+                        Cursor.isShotAllowed = False
+                    else:
+                        self.mouseCounter = 1
+
+            # Update cursor position
+            Cursor.xPos = games.mouse.x
+            Cursor.yPos = games.mouse.y
+
+            # Bring the tree and grass in front of all the ducks
+            if Game.started:
+                games.screen.remove(foreground)
+                games.screen.add(foreground)
+            self.update()
+
 
 # FUNCTION ==================================
 # Name.........: Main
