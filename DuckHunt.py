@@ -8,6 +8,12 @@ foreground = None
 games.init(screen_width=640, screen_height=480, fps=60)
 pygame.display.set_caption("Duck Hunt")
 
+# Exception class for restarting the game
+class RestartException(Exception):
+    def __init__(self):
+        super().__init__("")  # Initialize the exception with an empty message
+
+
 # CLASS ====================================
 # Name.........: GameScores
 # Description..: Will store game scores
@@ -122,7 +128,9 @@ class Game(games.Sprite):
             games.screen.add(self.results)
             games.screen.add(self.results2)
 
-
+    def restart(self):
+        # Raise an exception to restart the game
+        raise RestartException
 
     def tick(self):
         if self.started:
@@ -176,6 +184,11 @@ class Game(games.Sprite):
                         # Remove pause label and instructions
                         games.screen.remove(self.paused)
                         games.screen.remove(self.instructions)
+
+            # Check if the "R" key is pressed and it wasn't pressed in the previous tick
+            if games.keyboard.is_pressed(games.K_r):
+                self.restart()  # Restart the game
+                return
 
             # Exit game if Escape button was pressed
             if games.keyboard.is_pressed(games.K_ESCAPE):
@@ -259,6 +272,30 @@ def main():
         games.screen.add(foreground)
         # Hide the mouse cursor
         games.mouse.is_visible = False
+
+        # Create the game instance
+        game = Game()
+
+        # Add the game instance to the screen
+        games.screen.add(game)
+
+        try:
+            # Run the game loop
+            games.screen.mainloop()
+        except RestartException:
+            # Handle game restart exception
+
+            # Get all objects currently on the screen
+            all_objects = games.screen.get_all_objects()
+
+            # Remove all objects from the screen
+            while len(all_objects) > 0:
+                games.screen.remove(all_objects[0])
+
+            # Delete game timer and game instance to restart game
+            del game.gameTimer
+            del game.settingMenu
+            del game
 
 
 # Start!
