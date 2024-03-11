@@ -94,7 +94,33 @@ class Game(games.Sprite):
         GameScores.reset_score()
         Game.update_score_labels()
 
+    def spawn(self):
+        """ Spawn a duck """
+        # Generate a random colored duck
+        new_duck = Duck(randint(1, 3))
 
+        # Increment total ducks spawned
+        GameScores.totalDucks += 1
+
+        # Add the duck to the screen
+        games.screen.add(new_duck)
+
+    def update(self):
+        # Check if the game is over and display results
+        if Game.over and GameScores.totalShots > 0:
+            # Reset the menu counter and set playing to False
+            self.menuCounter = 0
+            self.playing = False
+            Game.over = True
+
+            # Show results
+            self.results.value = "You hit " + str(GameScores.ducksHit) + " of " + str(GameScores.totalDucks) + " ducks!"
+            self.results2.value = "Accuracy: " + str(
+                int((int(GameScores.ducksHit) / GameScores.totalShots) * 100)) + "%"
+
+            # Add the result texts to the game screen
+            games.screen.add(self.results)
+            games.screen.add(self.results2)
 
     @staticmethod
     def update_score_labels():
