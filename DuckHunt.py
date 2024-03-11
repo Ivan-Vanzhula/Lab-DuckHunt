@@ -28,6 +28,74 @@ class GameScores:
         GameScores.totalDucks = 0
 
 # CLASS ====================================
+# Name.........: Game
+# Description..: Will spawn ducks/check for pause
+# Syntax.......: Game()
+# ==========================================
+class Game(games.Sprite):
+    """ Duck Spawner Class """
+    image = games.load_image("Sprites/spawner.png")
+
+    # State of Game
+    paused = False  # True when game is paused
+    over = False  # True when game is over
+    started = False  #
+
+    scoreLabel = games.Text(value="0", size=25, left=500, y=428, color=color.white)
+    ducksShotLabel = games.Text(value="0", size=30, x=70, y=418, color=color.white)
+
+    def __init__(self):
+        super(Game, self).__init__(image=Game.image, x=0, y=0)
+
+        # Label for total points
+        games.screen.add(self.scoreLabel)
+        games.screen.add(self.ducksShotLabel)
+
+        # Instructions Labels
+        self.instructions = games.Text(value="Shoot as many ducks as possible in 30 seconds!", size=35, x=320, y=100, color=color.white)
+        self.instructions2 = games.Text(value="Press \"P\" to pause", size=35, x=320, y=140, color=color.white)
+        self.instructions3 = games.Text(value="Press \"R\" to restart", size=35, x=320, y=180, color=color.white)
+
+        games.screen.add(self.instructions)
+        games.screen.add(self.instructions2)
+        games.screen.add(self.instructions3)
+
+        # Paused Game Sprite
+        self.paused = games.Sprite(image=games.load_image("Sprites/paused.png"), x=320, y=240, dx=0, dy=0)
+
+        # Final Results Labels
+        self.results = games.Text(value="", size=35, x=320, y=100, color=color.white)  # How many ducks were hit
+        self.results2 = games.Text(value="", size=35, x=320, y=140, color=color.white)  # Accuracy
+
+        # Counters to delay events
+        self.spawnCounter = 0
+        self.menuCounter = 0
+
+        self.keyDelay = 0
+        self.keyDelayStart = False
+
+        # Game state flag
+        self.playing = False  # Set to true after instructions go away
+
+        # Create the timer for the game
+        self.gameTimer = Clock()
+        games.screen.add(self.gameTimer)
+
+        # Set initial game state
+        Game.started = False  # True when game is started
+        Game.paused = False  # True when game is paused
+        Game.over = False  # True when game is over
+
+        # Create the settings menu
+        self.settingMenu = Menu()
+        self.settingMenu.open()
+
+        # Reset game scores
+        GameScores.reset_score()
+        Game.update_score_labels()
+
+
+# CLASS ====================================
 # Name.........: Cursor
 # Description..: Sets mouse to the crosshair
 # Syntax.......: Cursor()
