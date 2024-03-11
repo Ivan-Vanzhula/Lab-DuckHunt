@@ -95,6 +95,24 @@ class Game(games.Sprite):
         Game.update_score_labels()
 
 
+
+    @staticmethod
+    def update_score_labels():
+        """ Update the score labels """
+        Game.scoreLabel.value = GameScores.score
+        Game.ducksShotLabel.value = GameScores.ducksHit
+        Game.scoreLabel.left = 500
+
+    @staticmethod
+    def update_score(points):
+        """ Update The Game Score """
+        # Update score and total ducks hit
+        GameScores.score += points
+        GameScores.ducksHit += 1
+
+        # Update score labels
+        Game.update_score_labels()
+
 # CLASS ====================================
 # Name.........: Cursor
 # Description..: Sets mouse to the crosshair
