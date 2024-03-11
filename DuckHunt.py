@@ -157,6 +157,39 @@ class Game(games.Sprite):
                 else:
                     self.menuCounter += 1
 
+            # Check for the pause button to be pressed
+            if games.keyboard.is_pressed(games.K_p) and not Game.over:
+                if self.keyDelay == 0:
+                    # Pause or unpause the game
+                    Game.paused = not Game.paused
+                    self.keyDelayStart = True
+
+                    # Display the pause sprite if on pause, remove if not
+                    if Game.paused:
+                        games.screen.add(self.paused)
+                        games.screen.add(self.instructions)
+
+                    else:
+                        # Keep mouse at position it was in when it paused to avoid cheating
+                        pygame.mouse.set_pos(Cursor.xPos, Cursor.yPos)
+
+                        # Remove pause label and instructions
+                        games.screen.remove(self.paused)
+                        games.screen.remove(self.instructions)
+
+            # Exit game if Escape button was pressed
+            if games.keyboard.is_pressed(games.K_ESCAPE):
+                exit()
+
+        # Advance the keyboard delay
+        if self.keyDelayStart:
+            if self.keyDelay > 10:
+                self.keyDelay = 0
+                self.keyDelayStart = False
+
+            else:
+                self.keyDelay += 1
+
     @staticmethod
     def update_score_labels():
         """ Update the score labels """
