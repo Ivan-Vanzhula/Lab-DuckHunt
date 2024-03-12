@@ -97,7 +97,46 @@ class Menu(games.Sprite):
             self.pointer.x += 32 * self.moveDirection
             self.moveCounter -= 1
 
+# CLASS ====================================
+# Name.........: Clock
+# Description..: Displays the clock object on the screen
+# Syntax.......: Clock()
+# ==========================================
+class Clock(games.Sprite):
+    """ Class for displaying the Clock """
 
+    def __init__(self):
+        super(Clock, self).__init__(image=Game.image, x=0, y=0)
+
+        # Timer Display
+        self.timer = games.Text(value="0:30", size=50, x=300, y=435, color=color.white)
+        games.screen.add(self.timer)
+
+        self.clockCount = 0
+        self.seconds = 30
+
+        # Sound For Last 10 Seconds
+        self.sound = games.load_sound("Sounds/beep.wav")
+
+        self.started = False
+
+    # Start the clock
+    def start_clock(self):
+        self.started = True
+
+    def update(self):
+        # Check if clock has run out of time
+        if self.seconds <= 0:
+            self.started = False
+            Game.over = True
+            games.mouse.is_visible = True  # Show mouse
+
+        # Change the clock's color to red when it gets down to the last minute
+        if self.seconds <= 10:
+            self.timer.color = color.red
+
+        # Keep the clock in the same position
+        self.timer.left = 280
 
 
 
