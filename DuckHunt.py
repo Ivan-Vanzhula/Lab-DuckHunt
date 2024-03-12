@@ -242,6 +242,37 @@ class Clock(games.Sprite):
         # Keep the clock in the same position
         self.timer.left = 280
 
+    # Update the Clock's Label
+    def update_clock(self):
+        label = "0:"
+
+        if self.seconds < 10:
+            label += "0" + str(self.seconds)
+
+        else:
+            label += str(self.seconds)
+
+        # Play sound on final 10 seconds
+        if self.seconds < 11:
+            self.sound.play()
+
+        # Update The Clock's Label
+        self.timer.value = label
+
+    # Perform the Clock countdown
+    def tick(self):
+        # Only Do Countdown if not paused and playing the game
+        if self.started and not Game.paused:
+            if self.clockCount >= 100:
+                self.seconds -= 1
+
+                # Show the new time on the clock
+                self.update_clock()
+
+                self.clockCount = 1
+
+            else:
+                self.clockCount += 1
 
 # FUNCTION ==================================
 # Name.........: Main
