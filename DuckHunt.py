@@ -199,6 +199,109 @@ class Duck(games.Sprite):
         if random_number % 5 == 0:
             # Change duck to straight or up
             self.straight = not self.straight
+            
+    def update(self):
+        if not Game.paused and not Game.over:
+            # Check if the duck is alive
+            if self.alive:
+                # Duck is alive
+                if self.bottom < 0 or self.right < 0 or self.left > 640:
+                    # Duck is off the screen, destroy
+                    self.destroy()
+
+                # Check if the duck should try and change directions
+                if self.directionCount < 100:
+                    self.directionCount += 1
+
+                else:
+                    self.change_direction()
+                    self.directionCount = 0
+
+                # Check if the duck is going straight and change velocity
+                if self.straight:
+                    self.dy = 0
+
+                    if self.direction == self.RIGHT:
+                        self.dx = 1 * Menu.duckSpeed
+
+                    else:
+                        self.dx = -1 * Menu.duckSpeed
+
+                else:
+                    # Duck is flying upwards
+                    self.dy = -1 * Menu.duckSpeed
+
+                # Update the animation frames based on duck's velocity
+                if not self.alive:
+                    self.frames = [2, self.die[2], self.die[3]]
+
+                elif self.direction == self.RIGHT:
+                    if self.straight:
+                        self.frames = [4, self.flyStraightRight[2], self.flyStraightRight[3], self.flyStraightRight[2],
+                                       self.flyStraightRight[1]]
+
+                    else:
+                        self.frames = [4, self.flyRight[2], self.flyRight[3], self.flyRight[2], self.flyRight[1]]
+
+                elif self.direction == self.LEFT:
+                    if self.straight:
+                        self.frames = [4, self.flyStraightLeft[2], self.flyStraightLeft[3], self.flyStraightLeft[2],
+                                       self.flyStraightLeft[1]]
+
+                    else:
+                        self.frames = [4, self.flyLeft[2], self.flyLeft[3], self.flyLeft[2], self.flyLeft[1]]
+
+                if self.frame > self.frames[0]:
+                    self.frame = 1
+
+                # Check for mouse clicks
+                if Cursor.isShotAllowed:
+                    # Prevent the shooting of a duck that's behind the tree
+                    if not (Cursor.xPos in range(150, 240) and Cursor.yPos in range(220, 390)):
+                        # Check if the mouse was over the duck
+                        if Cursor.xPos in range(self.left, self.right) and Cursor.yPos in range(self.top, self.bottom):
+                            # Duck was shot - Kill it
+                            self.shot()
+
+            else:
+                # Duck is Dead, Destroy once it hits the ground
+                if self.bottom > 370:
+                    self.destroy()
+
+    def tick(self):
+        """ Tick Method """
+        # Tick only if game is not paused
+        if not Game.paused:
+            if not self.alive:
+                # This will display the point value above the head and when it's done the duck will start to fall
+                if self.dieDelay > 50 and not self.continueDeath:
+                    self.dy = 1
+
+                    self.continueDeath = True
+                    self.frame = 1
+                    games.screen.remove(self.deathScore)
+
+                elif not self.continueDeath:
+                    self.dieDelay += 1
+
+            # This elif will help birds continue to fly
+            # At the correct angle and direction after resuming from a pause
+            elif (self.dx == 0) and (self.dy < 0):
+                if not self.straight:
+                    if self.direction == self.RIGHT:
+                        self.dx = .5
+
+                    else:
+                        self.dx = -.5
+
+            # Update the Duck's animation
+            self.update_animation()
+
+        elif Game.paused:
+            # Game is Paused - Freeze the duck
+            self.dx = 0
+            self.dy = 0
+
 
 
 # CLASS ====================================
