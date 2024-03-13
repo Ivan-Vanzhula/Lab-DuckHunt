@@ -750,6 +750,6 @@ def main():
             del game.settingMenu
             del game
 
-
-# Start!
-main()
+if __name__ == "__main__":
+    # Start!
+    main()
