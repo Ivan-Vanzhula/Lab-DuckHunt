@@ -301,7 +301,63 @@ class Duck(games.Sprite):
             # Game is Paused - Freeze the duck
             self.dx = 0
             self.dy = 0
+    def shot(self):
+        """ Kill the duck """
+        Game.update_score(self.points)
 
+        self.alive = False  # Set the duck to dead
+
+        self.set_image(self.die[1])  # Replace with starting death animation
+
+        self.frame = 1
+        self.animationCount = 0
+
+        # Freeze the duck
+        self.dx = 0
+        self.dy = 0
+
+        # Display score above ducks head
+        self.deathScore.x = self.x
+        self.deathScore.y = self.top - 10
+
+        games.screen.add(self.deathScore)
+
+    def update_animation(self):
+        self.animationCount += 1
+
+        # Change animation for falling dead duck
+        if not self.alive:
+            if self.animationCount >= 17:
+                if self.continueDeath:
+                    self.dy = 2
+
+                    # Advance the Death Animation
+                    frames = [2, self.die[3], self.die[2]]
+
+                    self.set_image(frames[self.frame])
+
+                    self.frame += 1
+
+                    # Make Sure the frame stays within the correct range
+                    if self.frame > frames[0]:
+                        self.frame = 1
+                self.animationCount = 0
+
+        # Change animation for duck that's not dead
+        else:
+            if self.animationCount >= 17 / Menu.duckSpeed:
+                if self.frame > self.frames[0]:
+                    self.frame = 1
+
+                self.set_image(self.frames[self.frame])
+
+                self.frame += 1
+
+                if self.frame > self.frames[0]:
+                    self.frame = 1
+
+                # Reset the animation counter
+                self.animationCount = 0
 
 
 # CLASS ====================================
