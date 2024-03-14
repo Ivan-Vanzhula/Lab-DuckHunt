@@ -1,17 +1,20 @@
 from superwires import games, color
-import pygame.display, pygame.mouse
+import pygame.display
+import pygame.mouse
 from random import randint
 
 # Setup game window
 foreground = None
 
 games.init(screen_width=640, screen_height=480, fps=60)
-pygame.display.set_caption("Duck Hunt")
+pygame.display.set_caption('Duck Hunt')
+
 
 # Exception class for restarting the game
 class RestartException(Exception):
     def __init__(self):
-        super().__init__("")  # Initialize the exception with an empty message
+        super().__init__('')  # Initialize the exception with an empty message
+
 
 # CLASS ====================================
 # Name.........: Menu
@@ -23,8 +26,9 @@ class Menu(games.Sprite):
 
     def __init__(self):
         # Load menu images
-        mainMenu = games.load_image("Sprites/Main_menu.png", transparent=False)
-        settingMenu = games.load_image("Sprites/Settings_menu.png", transparent=False)
+        mainMenu = games.load_image('Sprites/Main_menu.png', transparent=False)
+        settingMenu = games.load_image('Sprites/Settings_menu.png',
+                                       transparent=False)
 
         # Combine menu images into one surface
         self.joinedMenu = pygame.Surface((1280, 480))
@@ -44,7 +48,8 @@ class Menu(games.Sprite):
         self.pointerImage = pygame.Surface((30, 30)).convert_alpha()
         self.pointerImage.fill((255, 255, 255, 0))
         pygame.draw.circle(self.pointerImage, (0, 0, 0), (15, 15), 14)
-        self.pointer = games.Sprite(image=self.pointerImage, x=490 + 640, y=239)
+        self.pointer = games.Sprite(image=self.pointerImage,
+                                    x=490 + 640, y=239)
 
         # Create crosshair sprite for settings menu
         self.crosshair = Cursor()
@@ -100,7 +105,7 @@ class Menu(games.Sprite):
             self.x += 32 * self.moveDirection
             self.pointer.x += 32 * self.moveDirection
             self.moveCounter -= 1
-            
+
     def open(self):
         # Add menu and pointer to the screen
         games.screen.add(self)
@@ -111,6 +116,7 @@ class Menu(games.Sprite):
         Game.started = True
         games.screen.remove(self)
         games.screen.remove(self.pointer)
+
 
 # CLASS ====================================
 # Name.........: GameScores
@@ -130,6 +136,8 @@ class GameScores:
         GameScores.ducksHit = 0
         GameScores.totalShots = 0
         GameScores.totalDucks = 0
+
+
 # CLASS ====================================
 # Name.........: Duck
 # Description..: Class for a duck
@@ -140,35 +148,36 @@ class Duck(games.Sprite):
 
     def __init__(self, duck_type):
         # Colors Available
-        colors = [3, "black", "blue", "red"]
+        colors = [3, 'black', 'blue', 'red']
         duck_color = colors[duck_type]
 
         # Sprites for the Duck
-        self.flyRight = [3, games.load_image("Sprites/" + duck_color + "/duck1.png"),
-                         games.load_image("Sprites/" + duck_color + "/duck2.png"),
-                         games.load_image("Sprites/" + duck_color + "/duck3.png")]
+        self.flyRight = [3, games.load_image('Sprites/' + duck_color + '/duck1.png'),
+                         games.load_image('Sprites/' + duck_color + '/duck2.png'),
+                         games.load_image('Sprites/' + duck_color + '/duck3.png')]
 
-        self.flyStraightRight = [3, games.load_image("Sprites/" + duck_color + "/duck4.png"),
-                                 games.load_image("Sprites/" + duck_color + "/duck5.png"),
-                                 games.load_image("Sprites/" + duck_color + "/duck6.png")]
+        self.flyStraightRight = [3, games.load_image('Sprites/' + duck_color + '/duck4.png'),
+                                 games.load_image('Sprites/' + duck_color + '/duck5.png'),
+                                 games.load_image('Sprites/' + duck_color + '/duck6.png')]
 
-        self.flyLeft = [3, games.load_image("Sprites/" + duck_color + "/duck7.png"),
-                        games.load_image("Sprites/" + duck_color + "/duck8.png"),
-                        games.load_image("Sprites/" + duck_color + "/duck9.png")]
+        self.flyLeft = [3, games.load_image('Sprites/' + duck_color + '/duck7.png'),
+                        games.load_image('Sprites/' + duck_color + '/duck8.png'),
+                        games.load_image('Sprites/' + duck_color + '/duck9.png')]
 
-        self.flyStraightLeft = [3, games.load_image("Sprites/" + duck_color + "/duck10.png"),
-                                games.load_image("Sprites/" + duck_color + "/duck11.png"),
-                                games.load_image("Sprites/" + duck_color + "/duck12.png")]
+        self.flyStraightLeft = [3, games.load_image('Sprites/' + duck_color + '/duck10.png'),
+                                games.load_image('Sprites/' + duck_color + '/duck11.png'),
+                                games.load_image('Sprites/' + duck_color + '/duck12.png')]
 
-        self.die = [3, games.load_image("Sprites/" + duck_color + "/duckDie1.png"),
-                    games.load_image("Sprites/" + duck_color + "/duckDie2.png"),
-                    games.load_image("Sprites/" + duck_color + "/duckDie3.png")]
+        self.die = [3, games.load_image('Sprites/' + duck_color + '/duckDie1.png'),
+                    games.load_image('Sprites/' + duck_color + '/duckDie2.png'),
+                    games.load_image('Sprites/' + duck_color + '/duckDie3.png')]
 
         # Initialize Duck Sprite At Random X-Location
-        super(Duck, self).__init__(image=self.flyRight[1], x=randint(10, 470), y=350, dx=0, dy=-1 * Menu.duckSpeed)
+        super(Duck, self).__init__(image=self.flyRight[1], x=randint(10, 470),
+                                   y=350, dx=0, dy=-1 * Menu.duckSpeed)
 
         # Point Values Based On Duck Color
-        point_values = {"blue": 25, "red": 50, "black": 75}
+        point_values = {'blue': 25, 'red': 50, 'black': 75}
 
         # Direction Constants
         self.RIGHT = 1
@@ -181,10 +190,16 @@ class Duck(games.Sprite):
         self.points = point_values[duck_color]
 
         # Animation Frames
-        self.frames = [4, self.flyRight[2], self.flyRight[3], self.flyRight[2], self.flyRight[1]]
+        self.frames = [4,
+                       self.flyRight[2],
+                       self.flyRight[3],
+                       self.flyRight[2],
+                       self.flyRight[1]]
 
         # Points above the duck's head when it's shot
-        self.deathScore = games.Text(value=str(self.points), size=25, x=self.x, y=self.top - 5, color=color.white)
+        self.deathScore = games.Text(value=str(self.points), size=25,
+                                     x=self.x, y=self.top - 5,
+                                     color=color.white)
 
         # Animation Variables
         self.dieDelay = 0  # Delay Duck Falling
@@ -220,7 +235,7 @@ class Duck(games.Sprite):
         if random_number % 5 == 0:
             # Change duck to straight or up
             self.straight = not self.straight
-            
+
     def update(self):
         if not Game.paused and not Game.over:
             # Check if the duck is alive
@@ -258,19 +273,28 @@ class Duck(games.Sprite):
 
                 elif self.direction == self.RIGHT:
                     if self.straight:
-                        self.frames = [4, self.flyStraightRight[2], self.flyStraightRight[3], self.flyStraightRight[2],
-                                       self.flyStraightRight[1]]
+                        self.frames = [
+                            4, self.flyStraightRight[2],
+                            self.flyStraightRight[3],
+                            self.flyStraightRight[2],
+                            self.flyStraightRight[1]]
 
                     else:
-                        self.frames = [4, self.flyRight[2], self.flyRight[3], self.flyRight[2], self.flyRight[1]]
+                        self.frames = [
+                            4, self.flyRight[2], self.flyRight[3],
+                            self.flyRight[2], self.flyRight[1]]
 
                 elif self.direction == self.LEFT:
                     if self.straight:
-                        self.frames = [4, self.flyStraightLeft[2], self.flyStraightLeft[3], self.flyStraightLeft[2],
-                                       self.flyStraightLeft[1]]
+                        self.frames = [
+                            4, self.flyStraightLeft[2],
+                            self.flyStraightLeft[3], self.flyStraightLeft[2],
+                            self.flyStraightLeft[1]]
 
                     else:
-                        self.frames = [4, self.flyLeft[2], self.flyLeft[3], self.flyLeft[2], self.flyLeft[1]]
+                        self.frames = [
+                            4, self.flyLeft[2], self.flyLeft[3],
+                            self.flyLeft[2], self.flyLeft[1]]
 
                 if self.frame > self.frames[0]:
                     self.frame = 1
@@ -294,7 +318,8 @@ class Duck(games.Sprite):
         # Tick only if game is not paused
         if not Game.paused:
             if not self.alive:
-                # This will display the point value above the head and when it's done the duck will start to fall
+                # This will display the point value above the head
+                # and when it's done the duck will start to fall
                 if self.dieDelay > 50 and not self.continueDeath:
                     self.dy = 1
 
@@ -322,6 +347,7 @@ class Duck(games.Sprite):
             # Game is Paused - Freeze the duck
             self.dx = 0
             self.dy = 0
+
     def shot(self):
         """ Kill the duck """
         Game.update_score(self.points)
@@ -380,6 +406,7 @@ class Duck(games.Sprite):
                 # Reset the animation counter
                 self.animationCount = 0
 
+
 # CLASS ====================================
 # Name.........: Game
 # Description..: Will spawn ducks/check for pause
@@ -387,15 +414,17 @@ class Duck(games.Sprite):
 # ==========================================
 class Game(games.Sprite):
     """ Duck Spawner Class """
-    image = games.load_image("Sprites/spawner.png")
+    image = games.load_image('Sprites/spawner.png')
 
     # State of Game
     paused = False  # True when game is paused
     over = False  # True when game is over
     started = False  #
 
-    scoreLabel = games.Text(value="0", size=25, left=500, y=428, color=color.white)
-    ducksShotLabel = games.Text(value="0", size=30, x=70, y=418, color=color.white)
+    scoreLabel = games.Text(
+        value='0', size=25, left=500, y=428, color=color.white)
+    ducksShotLabel = games.Text(
+        value='0', size=30, x=70, y=418, color=color.white)
 
     def __init__(self):
         super(Game, self).__init__(image=Game.image, x=0, y=0)
@@ -405,20 +434,32 @@ class Game(games.Sprite):
         games.screen.add(self.ducksShotLabel)
 
         # Instructions Labels
-        self.instructions = games.Text(value="Shoot as many ducks as possible in 30 seconds!", size=35, x=320, y=100, color=color.white)
-        self.instructions2 = games.Text(value="Press \"P\" to pause", size=35, x=320, y=140, color=color.white)
-        self.instructions3 = games.Text(value="Press \"R\" to restart", size=35, x=320, y=180, color=color.white)
+        self.instructions = games.Text(
+            value='Shoot as many ducks as possible in 30 seconds!',
+            size=35, x=320, y=100, color=color.white)
+
+        self.instructions2 = games.Text(value='Press "P" to pause', size=35,
+                                        x=320, y=140, color=color.white)
+        self.instructions3 = games.Text(value='Press "R" to restart',
+                                        size=35, x=320, y=180,
+                                        color=color.white)
 
         games.screen.add(self.instructions)
         games.screen.add(self.instructions2)
         games.screen.add(self.instructions3)
 
         # Paused Game Sprite
-        self.paused = games.Sprite(image=games.load_image("Sprites/paused.png"), x=320, y=240, dx=0, dy=0)
+        self.paused = games.Sprite(image=games.load_image(
+            'Sprites/paused.png'),
+            x=320, y=240, dx=0, dy=0)
 
         # Final Results Labels
-        self.results = games.Text(value="", size=35, x=320, y=100, color=color.white)  # How many ducks were hit
-        self.results2 = games.Text(value="", size=35, x=320, y=140, color=color.white)  # Accuracy
+        # How many ducks were hit
+        self.results = games.Text(value='', size=35,
+                                  x=320, y=100, color=color.white)
+        # Accuracy
+        self.results2 = games.Text(value='', size=35,
+                                   x=320, y=140, color=color.white)
 
         # Counters to delay events
         self.spawnCounter = 0
@@ -467,9 +508,11 @@ class Game(games.Sprite):
             Game.over = True
 
             # Show results
-            self.results.value = "You hit " + str(GameScores.ducksHit) + " of " + str(GameScores.totalDucks) + " ducks!"
-            self.results2.value = "Accuracy: " + str(
-                int((int(GameScores.ducksHit) / GameScores.totalShots) * 100)) + "%"
+            self.results.value = 'You hit ' + str(GameScores.ducksHit)
+            + ' of ' + str(GameScores.totalDucks) + ' ducks!'
+            self.results2.value = 'Accuracy: ' + str(
+                int((int(GameScores.ducksHit)
+                    / GameScores.totalShots) * 100))+'%'
 
             # Add the result texts to the game screen
             games.screen.add(self.results)
@@ -525,14 +568,16 @@ class Game(games.Sprite):
                         games.screen.add(self.instructions)
 
                     else:
-                        # Keep mouse at position it was in when it paused to avoid cheating
+                        # Keep mouse at position
+                        # it was in when it paused to avoid cheating
                         pygame.mouse.set_pos(Cursor.xPos, Cursor.yPos)
 
                         # Remove pause label and instructions
                         games.screen.remove(self.paused)
                         games.screen.remove(self.instructions)
 
-            # Check if the "R" key is pressed and it wasn't pressed in the previous tick
+            # Check if the 'R' key is pressed
+            # and it wasn't pressed in the previous tick
             if games.keyboard.is_pressed(games.K_r):
                 self.restart()  # Restart the game
                 return
@@ -567,6 +612,7 @@ class Game(games.Sprite):
         # Update score labels
         Game.update_score_labels()
 
+
 # CLASS ====================================
 # Name.........: Cursor
 # Description..: Sets mouse to the crosshair
@@ -580,18 +626,20 @@ class Cursor(games.Sprite):
     xPos = games.mouse.x
     yPos = games.mouse.y
 
-    images = [games.load_image(f"Sprites/Cursors/Cursor_{i}.png") for i in range(1, 5)]
+    images = [games.load_image(f'Sprites/Cursors/Cursor_{i}.png')
+              for i in range(1, 5)]
 
     def __init__(self):
         """ Cursor Initializer """
 
-        super(Cursor, self).__init__(image=self.images[0], x=games.mouse.x, y=games.mouse.y)
+        super(Cursor, self).__init__(
+            image=self.images[0], x=games.mouse.x, y=games.mouse.y)
 
         self.mouseClicked = False
         self.mouseCounter = 0
 
         # Load gunshot sound
-        self.gunShotSound = games.load_sound("Sounds/shot.wav")
+        self.gunShotSound = games.load_sound('Sounds/shot.wav')
 
     def update(self):
         # Keep the sprite at the same x and y location as the mouse
@@ -637,6 +685,7 @@ class Cursor(games.Sprite):
                 games.screen.add(foreground)
             self.update()
 
+
 # CLASS ====================================
 # Name.........: Clock
 # Description..: Displays the clock object on the screen
@@ -648,14 +697,15 @@ class Clock(games.Sprite):
         super(Clock, self).__init__(image=Game.image, x=0, y=0)
 
         # Timer Display
-        self.timer = games.Text(value="0:30", size=50, x=300, y=435, color=color.white)
+        self.timer = games.Text(
+            value='0:30', size=50, x=300, y=435, color=color.white)
         games.screen.add(self.timer)
 
         self.clockCount = 0
         self.seconds = 30
 
         # Sound For Last 10 Seconds
-        self.sound = games.load_sound("Sounds/beep.wav")
+        self.sound = games.load_sound('Sounds/beep.wav')
 
         self.started = False
 
@@ -679,10 +729,10 @@ class Clock(games.Sprite):
 
     # Update the Clock's Label
     def update_clock(self):
-        label = "0:"
+        label = '0:'
 
         if self.seconds < 10:
-            label += "0" + str(self.seconds)
+            label += '0' + str(self.seconds)
 
         else:
             label += str(self.seconds)
@@ -709,6 +759,7 @@ class Clock(games.Sprite):
             else:
                 self.clockCount += 1
 
+
 # FUNCTION ==================================
 # Name.........: Main
 # Description..: Will start the game
@@ -718,8 +769,12 @@ def main():
     global foreground  # Declare 'foreground' as a global variable
 
     while True:
-        foreground = games.Sprite(image=games.load_image("Sprites/foreground.png"), left=1, bottom=390)
-        games.screen.background = games.load_image("Sprites/background.png", transparent=False)
+        foreground = games.Sprite(
+            image=games.load_image('Sprites/foreground.png'),
+            left=1, bottom=390)
+
+        games.screen.background = games.load_image(
+            'Sprites/background.png', transparent=False)
 
         # Add the foreground sprite to the screen
         games.screen.add(foreground)
@@ -750,6 +805,7 @@ def main():
             del game.settingMenu
             del game
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     # Start!
     main()
