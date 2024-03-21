@@ -512,7 +512,7 @@ class Game(games.Sprite):
             + ' of ' + str(GameScores.totalDucks) + ' ducks!'
             self.results2.value = 'Accuracy: ' + str(
                 int((int(GameScores.ducksHit)
-                    / GameScores.totalShots) * 100))+'%'
+                    / GameScores.totalShots) * 100)) + '%'
 
             # Add the result texts to the game screen
             games.screen.add(self.results)
