@@ -236,6 +236,8 @@ class Duck(games.Sprite):
             # Change duck to straight or up
             self.straight = not self.straight
 
+
+
     def update(self):
         if not Game.paused and not Game.over:
             # Check if the duck is alive
