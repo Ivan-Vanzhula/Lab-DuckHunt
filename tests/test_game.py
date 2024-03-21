@@ -1,10 +1,12 @@
 import pytest
 import DuckHunt
 
+
 # Fixture to initialize a Game instance for testing
 @pytest.fixture
 def game_instance():
     return DuckHunt.Game()
+
 
 # Test case for initializing the Game instance
 def test_game_initialization(game_instance):
@@ -12,10 +14,12 @@ def test_game_initialization(game_instance):
     assert game_instance.menuCounter == 0
     assert game_instance.spawnCounter == 0
 
+
 # Test case for spawning ducks in the game
 def test_ducks_spawning(game_instance):
     game_instance.spawn()
     assert DuckHunt.GameScores.totalDucks == 1
+
 
 # Test case for updating game counters
 def test_game_counters(game_instance):
