@@ -507,8 +507,7 @@ class Game(games.Sprite):
             Game.over = True
 
             # Show results
-            self.results.value = 'You hit ' + str(GameScores.ducksHit)
-            + ' of ' + str(GameScores.totalDucks) + ' ducks!'
+            self.results.value = 'You hit ' + str(GameScores.ducksHit) + ' of ' + str(GameScores.totalDucks) + ' ducks!'
             self.results2.value = 'Accuracy: ' + str(
                 int((int(GameScores.ducksHit)
                     / GameScores.totalShots) * 100)) + '%'
