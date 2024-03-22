@@ -1,5 +1,8 @@
 import pytest
 import DuckHunt
+import pygame
+
+pygame.init()
 
 
 # Fixture to initialize a Clock instance for testing
