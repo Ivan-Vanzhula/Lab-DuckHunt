@@ -6,6 +6,8 @@ from random import randint
 # Setup game window
 foreground = None
 
+pygame.init()
+
 games.init(screen_width=640, screen_height=480, fps=60)
 pygame.display.set_caption('Duck Hunt')
 
