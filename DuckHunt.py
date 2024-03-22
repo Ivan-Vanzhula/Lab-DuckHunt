@@ -60,7 +60,7 @@ class Menu(games.Sprite):
     def tick(self):
         # Handle menu interactions
         if Cursor.clicked and not self.moveCounter:
-                # Main menu interactions
+            # Main menu interactions
             if self.activeMenu == 0:
                 if 389 > Cursor.xPos > 251 and 162 > Cursor.yPos > 116:
                     Game.started = True  # Start the game
