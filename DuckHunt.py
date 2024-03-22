@@ -60,45 +60,44 @@ class Menu(games.Sprite):
     def tick(self):
         # Handle menu interactions
         if Cursor.clicked and not self.moveCounter:
-            match self.activeMenu:
                 # Main menu interactions
-                case 0:
-                    if 389 > Cursor.xPos > 251 and 162 > Cursor.yPos > 116:
-                        Game.started = True  # Start the game
-                        self.close()  # Close the menu
-                    elif 389 > Cursor.xPos > 251 and 262 > Cursor.yPos > 216:
-                        self.activeMenu = 1  # Switch to settings menu
+            if self.activeMenu == 0:
+                if 389 > Cursor.xPos > 251 and 162 > Cursor.yPos > 116:
+                    Game.started = True  # Start the game
+                    self.close()  # Close the menu
+                elif 389 > Cursor.xPos > 251 and 262 > Cursor.yPos > 216:
+                    self.activeMenu = 1  # Switch to settings menu
 
-                        self.moveCounter = 20  # Start menu transition
-                        self.moveDirection = -1
-                # Settings menu interactions
-                case 1:
-                    if 386 > Cursor.xPos > 253 and 340 > Cursor.yPos > 296:
-                        self.activeMenu = 0  # Switch back to main menu
+                    self.moveCounter = 20  # Start menu transition
+                    self.moveDirection = -1
+            # Settings menu interactions
+            elif self.activeMenu == 1:
+                if 386 > Cursor.xPos > 253 and 340 > Cursor.yPos > 296:
+                    self.activeMenu = 0  # Switch back to main menu
 
-                        self.moveCounter = 20  # Start menu transition
-                        self.moveDirection = 1
-                    elif 128 > Cursor.yPos > 88:
-                        # Handle crosshair selection
-                        if 110 > Cursor.xPos > 70:
-                            self.crosshair.set_image(Cursor.images[0])
-                        elif 206 > Cursor.xPos > 166:
-                            self.crosshair.set_image(Cursor.images[1])
-                        elif 303 > Cursor.xPos > 263:
-                            self.crosshair.set_image(Cursor.images[2])
-                        elif 400 > Cursor.xPos > 360:
-                            self.crosshair.set_image(Cursor.images[3])
-                    elif 254 > Cursor.yPos > 224:
-                        # Handle duck speed selection
-                        if 430 > Cursor.xPos > 400:
-                            Menu.duckSpeed = 0.5
-                            self.pointer.x = 415
-                        elif 505 > Cursor.xPos > 475:
-                            Menu.duckSpeed = 1
-                            self.pointer.x = 490
-                        elif 580 > Cursor.xPos > 550:
-                            Menu.duckSpeed = 1.5
-                            self.pointer.x = 565
+                    self.moveCounter = 20  # Start menu transition
+                    self.moveDirection = 1
+                elif 128 > Cursor.yPos > 88:
+                    # Handle crosshair selection
+                    if 110 > Cursor.xPos > 70:
+                        self.crosshair.set_image(Cursor.images[0])
+                    elif 206 > Cursor.xPos > 166:
+                        self.crosshair.set_image(Cursor.images[1])
+                    elif 303 > Cursor.xPos > 263:
+                        self.crosshair.set_image(Cursor.images[2])
+                    elif 400 > Cursor.xPos > 360:
+                        self.crosshair.set_image(Cursor.images[3])
+                elif 254 > Cursor.yPos > 224:
+                    # Handle duck speed selection
+                    if 430 > Cursor.xPos > 400:
+                        Menu.duckSpeed = 0.5
+                        self.pointer.x = 415
+                    elif 505 > Cursor.xPos > 475:
+                        Menu.duckSpeed = 1
+                        self.pointer.x = 490
+                    elif 580 > Cursor.xPos > 550:
+                        Menu.duckSpeed = 1.5
+                        self.pointer.x = 565
 
         # Update menu position during menu transitions
         if self.moveCounter:
