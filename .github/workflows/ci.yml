@@ -44,3 +44,7 @@ jobs:
     - name: Run tests
       run: |
         pytest
+      env:
+        SDL_VIDEODRIVER: "dummy" 
+        SDL_AUDIODRIVER: "disk"
+      run: poetry run python -m pytest tests/
