@@ -1,6 +1,7 @@
 import pytest
 import DuckHunt
 
+
 # Fixture to initialize a Clock instance for testing
 @pytest.fixture
 def clock_instance():
